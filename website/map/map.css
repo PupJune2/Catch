@@ -1,0 +1,239 @@
+/* Catch – Copyright (C) 2026 PupJune2 (https://junify.live)
+   SPDX-License-Identifier: AGPL-3.0-only
+   GNU AGPL-3.0 with additional terms (attribution required) – see LICENSE and NOTICE.md */
+/* Catch – Karte. Farben wie in der App (app/src/theme.ts, app/src/lib/kinds.ts). */
+@font-face { font-family: "Jakarta"; src: url("../assets/fonts/PlusJakartaSans_600SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Jakarta"; src: url("../assets/fonts/PlusJakartaSans_700Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Jakarta"; src: url("../assets/fonts/PlusJakartaSans_800ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+:root {
+  color-scheme: dark;
+  --bg: #16203a;
+  --land: #1b2644;
+  --surface: #22304f;
+  --text: #ffffff;
+  --muted: #8c97b2;
+  --on-light: #14203a;
+  --lime: #c7e8a5;
+  --cyan: #2ec8e6;
+  /* Vom App-Layout überdeckte Ränder (Nachricht "padding") */
+  --pad-top: 0px;
+  --pad-bottom: 0px;
+  --font: "Jakarta", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+}
+
+#map { position: absolute; inset: 0; background: var(--land); }
+.maplibregl-canvas { outline: none; }
+
+.noscript { margin: 40px 20px; text-align: center; color: var(--muted); }
+
+/* ---- Hinweis-Pill (Zoom, Offline, Fehler) -------------------------------- */
+.hint {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: calc(var(--pad-top) + 12px);
+  transform: translateX(-50%);
+  max-width: calc(100% - 48px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(17, 26, 48, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font: 700 12.5px/1.25 var(--font);
+  color: var(--text);
+  pointer-events: none;
+  transition: top 0.2s ease;
+}
+.hint[hidden] { display: none; }
+.hint::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.hint.is-warn::before { background: #ff7a1a; }
+.hint.is-zoom::before { background: var(--lime); }
+
+/* ---- Attribution (muss sichtbar bleiben) --------------------------------- */
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right { bottom: var(--pad-bottom); transition: bottom 0.2s ease; }
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl { margin: 0 0 6px 6px; }
+.maplibregl-ctrl.maplibregl-ctrl-attrib {
+  background: rgba(17, 26, 48, 0.78);
+  color: var(--muted);
+  font: 600 10.5px/1.35 var(--font);
+  padding: 2px 7px;
+  border-radius: 7px;
+  max-width: calc(100vw - 24px);
+}
+.maplibregl-ctrl-attrib a { color: #c9d1e6; text-decoration: none; }
+.maplibregl-ctrl-attrib a:hover { text-decoration: underline; }
+.maplibregl-ctrl-attrib.maplibregl-attrib-empty { display: none; }
+
+/* ---- Marker-Grundgerüst: MapLibre setzt transform am äußeren Element ------ */
+.mk { cursor: pointer; }
+.mk:focus { outline: none; }
+.mk:focus-visible > * { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+/* Hinweis: Pill in der Farbe der Art mit Icon + Linie */
+.tip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 28px;
+  padding: 0 9px 0 3px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--c, #fff);
+  color: var(--on-light);
+  border: 2px solid var(--bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  font: 800 12.5px/1 var(--font);
+  white-space: nowrap;
+  transition: transform 0.15s ease;
+}
+.tip.is-old { opacity: 0.82; }
+.tip-icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(20, 32, 58, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tip-icon svg { width: 15px; height: 15px; display: block; }
+.tip-line { max-width: 64px; overflow: hidden; text-overflow: ellipsis; }
+.tip.is-fresh::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  z-index: -1;
+  animation: tip-pulse 1.9s ease-out infinite;
+}
+.tip.is-selected { transform: scale(1.14); border-color: #fff; opacity: 1; }
+@keyframes tip-pulse {
+  0% { box-shadow: 0 0 0 0 var(--c); opacity: 0.85; }
+  100% { box-shadow: 0 0 0 13px var(--c); opacity: 0; }
+}
+
+/* Mehrere Hinweise an einer Stelle */
+.cluster {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  min-width: 32px;
+  box-sizing: border-box;
+  padding: 0 10px 0 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  font: 800 13px/1 var(--font);
+}
+.cluster-dots { display: flex; }
+.cluster-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 1.5px solid var(--bg);
+  margin-left: -4px;
+}
+.cluster-dots i:first-child { margin-left: 0; }
+.cluster.is-fresh { border-color: var(--lime); }
+
+/* Eigener Standort */
+.me-wrap { pointer-events: none; }
+.me {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  animation: me-pulse 2.4s ease-out infinite;
+}
+@keyframes me-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(46, 200, 230, 0.55), 0 2px 8px rgba(0, 0, 0, 0.45); }
+  100% { box-shadow: 0 0 0 16px rgba(46, 200, 230, 0), 0 2px 8px rgba(0, 0, 0, 0.45); }
+}
+
+/* Verbindung: Start/Ziel/Umstiege mit Beschriftung */
+.rp-wrap { pointer-events: none; }
+.rp { position: relative; width: 14px; height: 14px; }
+.rp-dot {
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--bg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.rp.is-start .rp-dot { background: var(--bg); border: 3.5px solid #fff; }
+.rp.is-end .rp-dot { width: 18px; height: 18px; margin: -2px; background: var(--lime); border: 3px solid var(--bg); }
+.rp-label {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 8px;
+  border-radius: 9px;
+  background: rgba(17, 26, 48, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  max-width: 190px;
+}
+.rp.is-left .rp-label { left: auto; right: 20px; }
+.rp-name { font: 700 11.5px/1.25 var(--font); color: var(--text); overflow: hidden; text-overflow: ellipsis; }
+.rp-sub { font: 800 10.5px/1.25 var(--font); color: var(--lime); }
+
+.rp-label.is-hidden, .rb.is-hidden { visibility: hidden; }
+
+/* Linien-Badge auf einem Fahrt-Abschnitt */
+.rb-wrap { pointer-events: none; }
+.rb {
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: var(--c, #5e6a88);
+  color: var(--fg, #fff);
+  border: 1.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  font: 800 11.5px/1.2 var(--font);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tip.is-fresh::before, .me { animation: none; }
+  .tip, .hint, .maplibregl-ctrl-bottom-left, .maplibregl-ctrl-bottom-right { transition: none; }
+}

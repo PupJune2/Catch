@@ -1,0 +1,318 @@
+<!doctype html>
+<!-- Catch – Copyright (C) 2026 PupJune2 (https://junify.live) · SPDX-License-Identifier: AGPL-3.0-only · GNU AGPL-3.0 with additional terms (attribution required) – see LICENSE and NOTICE.md -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Catch – Know what’s happening on your line</title>
+  <meta name="description" content="Catch is the community app for buses and trains in Germany: live tips from other passengers on delays, cancellations, crowding and disruptions – with journey search, line insights and alerts for your trip.">
+  <meta name="theme-color" content="#22304F">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Catch – Know what’s happening on your line">
+  <meta property="og:description" content="Live tips from other passengers on buses, trams, the U-Bahn and trains: delays, cancellations, crowding, disruptions and more. All across Germany.">
+  <meta property="og:image" content="/assets/img/og.png">
+  <meta property="og:locale" content="en_GB">
+  <link rel="alternate" hreflang="en" href="https://junify.live/">
+  <link rel="alternate" hreflang="de" href="https://junify.live/de/">
+  <link rel="alternate" hreflang="x-default" href="https://junify.live/">
+  <link rel="preload" href="/assets/fonts/PlusJakartaSans_800ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<!-- Icons (defined once, used many times) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="4"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6" fill="currentColor"/><circle cx="15" cy="14" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-live" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></symbol>
+  <symbol id="i-android" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48 19.44 6.3a.38.38 0 0 0-.66-.38l-1.86 3.23a11.5 11.5 0 0 0-9.84 0L5.22 5.92a.38.38 0 1 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52ZM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6 0 9.5 7 9.5 7a17 17 0 0 1-2.9 3.7M6.3 6.3C3.9 8 2.5 12 2.5 12S6 19 12 19a9.6 9.6 0 0 0 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0M16 4.5a3.2 3.2 0 0 1 0 6.2M21 20a6 6 0 0 0-3.5-5.4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-thumb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4v-9h3Zm0 0 4-8a2.5 2.5 0 0 1 2.5 3L13 9h5.5a2 2 0 0 1 2 2.4l-1.3 6.5a2.5 2.5 0 0 1-2.5 2.1H7"/></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3.5c0 1 .8 1.3.8 2.3S8 7.1 8 8M12 3.5c0 1 .8 1.3.8 2.3S12 7.1 12 8"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4V8Z"/><path d="M14 6v12" stroke-dasharray="2 2.5"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/" aria-label="Catch – home"><img src="/assets/img/ghost.svg" alt="" width="30" height="33">Catch</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#fairness">Fairness</a>
+      <a href="#support">Support</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="lang" href="/de/" hreflang="de" lang="de" aria-label="Deutsche Version">DE</a>
+      <a class="btn btn-primary js-app" href="https://app.junify.live">Open app</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="pill pill-lime"><span class="dot"></span>All across Germany</span>
+        <h1>Know what’s happening on <em>your line.</em></h1>
+        <p class="lead">Running late, cancelled, packed, doors broken? Catch shows you what other passengers on buses, trams, the U-Bahn and trains are reporting right now – with journey search, line insights and alerts for your trip.</p>
+        <ul class="kinds" aria-label="What you can report">
+          <li class="k-delay"><svg aria-hidden="true"><use href="#i-clock"/></svg>Delays</li>
+          <li class="k-cancel"><svg aria-hidden="true"><use href="#i-x"/></svg>Cancellations</li>
+          <li class="k-crowd"><svg aria-hidden="true"><use href="#i-users"/></svg>Crowding</li>
+          <li class="k-disrupt"><svg aria-hidden="true"><use href="#i-alert"/></svg>Disruptions</li>
+          <li class="k-check"><svg aria-hidden="true"><use href="#i-ticket"/></svg>Ticket checks</li>
+        </ul>
+        <div class="hero-cta">
+          <a class="btn btn-primary js-apk" href="/download/catch.apk" download>
+            <svg aria-hidden="true"><use href="#i-android"/></svg><span>Get the Android app</span>
+          </a>
+          <a class="btn btn-ghost js-app" href="https://app.junify.live">
+            <svg aria-hidden="true"><use href="#i-globe"/></svg>Open in browser
+          </a>
+        </div>
+        <p class="hero-note"><span>Free</span><span>Bus, tram, U-Bahn, S-Bahn, train</span><span>Browse without an account</span></p>
+      </div>
+
+      <div class="hero-visual">
+        <div class="phone"><div class="screen-area"><img src="/assets/img/screen-start.webp" alt="Catch app: home screen with recent tips" width="585" height="1266" fetchpriority="high"></div></div>
+        <div class="float-card one scard orange" aria-hidden="true">
+          <div class="tab">Delay · 2 min ago</div>
+          <div class="body">
+            <div class="diamond"><svg><use href="#i-train"/></svg></div>
+            <div><div class="title">U8 → Wittenau</div><div class="sub">+10 min · Moritzplatz – Kottbusser Tor</div></div>
+          </div>
+        </div>
+        <div class="float-card two scard lime" aria-hidden="true">
+          <div class="tab">Quiet</div>
+          <div class="body">
+            <div class="diamond"><svg><use href="#i-train"/></svg></div>
+            <div><div class="title">S7 → Potsdam</div><div class="sub">no reports today</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live numbers -->
+  <div class="wrap stats">
+    <div class="stat-strip" aria-live="polite">
+      <div class="stat"><b class="live js-stat" data-key="reports24h">–</b><span>reports in 24 h</span></div>
+      <div class="stat"><b class="js-stat" data-key="lines24h">–</b><span>lines with reports today</span></div>
+      <div class="stat"><b class="lime">16</b><span>German states covered</span></div>
+    </div>
+    <p class="stats-note js-stats-note"></p>
+  </div>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Features</span>
+        <h2>Everything for a relaxed ride.</h2>
+        <p>Live tips from other passengers and smart insights that think ahead – so you know what to expect before you board.</p>
+      </div>
+      <div class="features">
+        <article class="scard lime feature">
+          <div class="tab">Search</div>
+          <div class="body">
+            <div class="head"><div class="diamond"><svg><use href="#i-search"/></svg></div><h3>Find your connection</h3></div>
+            <p>From A to B like in a journey planner – with times, transfers and real-time data. Every line shows instantly whether passengers reported something.</p>
+            <ul><li>Connections &amp; departure boards</li><li>Status per line: quiet · frequent tips · just reported</li></ul>
+          </div>
+        </article>
+        <article class="scard lilac feature">
+          <div class="tab">Understand</div>
+          <div class="body">
+            <div class="head"><div class="diamond"><svg><use href="#i-chart"/></svg></div><h3>Spot the patterns</h3></div>
+            <p>Catch analyses all tips for a line and tells you in one sentence what to look out for – for example when it’s usually packed.</p>
+            <ul><li>Filter by kind: delays, crowding, disruptions …</li><li>Peak times &amp; hotspots between stops</li><li>Every tip with its time</li></ul>
+          </div>
+        </article>
+        <article class="scard orange feature">
+          <div class="tab">Report</div>
+          <div class="body">
+            <div class="head"><div class="diamond"><svg><use href="#i-plus"/></svg></div><h3>Reported in 10 seconds</h3></div>
+            <p>Pick what’s happening – Catch detects which line you’re on and suggests the previous and next stop. Tap – done.</p>
+            <ul><li>Delay, cancellation, crowding, disruption, ticket check</li><li>Line and stops pre-filled</li><li>Others confirm: “still the case” / “resolved”</li></ul>
+          </div>
+        </article>
+        <article class="scard cyan feature">
+          <div class="tab">Live</div>
+          <div class="body">
+            <div class="head"><div class="diamond"><svg><use href="#i-live"/></svg></div><h3>Alerts for your trip</h3></div>
+            <p>Pick a line and time – or your whole connection. As soon as someone reports something on your route, you get a pop-up with sound.</p>
+            <ul><li>You choose which kinds alert you</li><li>Push notifications, even when the app is closed</li><li>Highlighted when it’s on your section</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screens -->
+  <section aria-label="App screens">
+    <div class="wrap">
+      <div class="screens">
+        <figure class="screen"><div class="phone"><div class="screen-area"><img src="/assets/img/screen-suche.webp" alt="Journey search with status per line" width="585" height="1266" loading="lazy"></div></div><figcaption>Connections<span>with status per line</span></figcaption></figure>
+        <figure class="screen"><div class="phone"><div class="screen-area"><img src="/assets/img/screen-linie.webp" alt="Line statistics with peak times and hotspots" width="585" height="1266" loading="lazy"></div></div><figcaption>Line insights<span>peak times &amp; hotspots</span></figcaption></figure>
+        <figure class="screen"><div class="phone"><div class="screen-area"><img src="/assets/img/screen-melden.webp" alt="Reporting: what’s happening? Five kinds of tips" width="585" height="1266" loading="lazy"></div></div><figcaption>Report<span>five kinds of tips</span></figcaption></figure>
+        <figure class="screen"><div class="phone"><div class="screen-area"><img src="/assets/img/screen-alarm.webp" alt="Live alert on your section" width="585" height="1266" loading="lazy"></div></div><figcaption>Live alert<span>pop-up + sound</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps. No surprises.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div><h3>Search your trip</h3><p>Enter start and destination. You’ll see your connections – and at a glance which lines have current tips.</p></div></div>
+        <div class="step"><div class="num">2</div><div><h3>Start live tracking</h3><p>One tap on “Live tracking” and Catch keeps an eye on your route – from boarding to arrival. If something is reported, you’re alerted right away.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Share what you see</h3><p>Delayed, packed or doors out of order? Report it with two taps – and help everyone who boards after you.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fairness -->
+  <section id="fairness">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Fair &amp; safe</span>
+        <h2>Tips, not exposure.</h2>
+        <p>Catch is about the ride, not about people. Tips only say what, where and when – never who.</p>
+      </div>
+      <div class="fair">
+        <div class="fair-item"><div class="ic"><svg><use href="#i-eye-off"/></svg></div><h3>No photos, no free text</h3><p>Tips only contain the kind, line, stops, time and fixed tags like “very full”. People can’t be described or identified.</p></div>
+        <div class="fair-item"><div class="ic"><svg><use href="#i-lock"/></svg></div><h3>Privacy first</h3><p>No location history, no ad trackers. Reports appear anonymously. You can delete your account in the app at any time.</p></div>
+        <div class="fair-item"><div class="ic"><svg><use href="#i-thumb"/></svg></div><h3>Moderated by the community</h3><p>Others confirm or dispute tips, and anyone can flag content. False or inappropriate tips are hidden automatically, spam is limited.</p></div>
+      </div>
+      <div class="ticket-note"><svg aria-hidden="true"><use href="#i-ticket"/></svg><p>Catch is here to make your ride easier – not to dodge fares. Please always travel with a valid ticket. The house rules are in our <a href="/terms">terms of use</a>.</p></div>
+    </div>
+  </section>
+
+  <!-- Unterstützen (Ko-fi) -->
+  <section id="support">
+    <div class="wrap">
+      <div class="support">
+        <div class="support-ic" aria-hidden="true"><svg><use href="#i-coffee"/></svg></div>
+        <div class="support-text">
+          <span class="eyebrow">Support</span>
+          <h2>Keep Catch free – buy us a coffee.</h2>
+          <p>Catch has no ads, no tracking and no paywall. Servers, maps and development cost money – if Catch helps you on your way, you can support it on Ko-fi. Every coffee keeps the project going.</p>
+        </div>
+        <div class="support-action">
+          <a class="btn btn-primary btn-kofi" href="https://ko-fi.com/catchline" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-coffee"/></svg><span>Support on Ko-fi</span></a>
+          <small>One-off or monthly · safe payment via Ko-fi</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq">
+        <details><summary>Does Catch cost anything?</summary><div class="answer"><p>No, Catch is free – no ads, no tracking. If you like it, you can support it on <a href="https://ko-fi.com/catchline" target="_blank" rel="noopener">Ko-fi</a>.</p></div></details>
+        <details><summary>What can I report?</summary><div class="answer"><p>Five kinds of tips: delays, cancellations (including replacement services), crowding, disruptions such as broken doors, heating or lifts – and ticket checks. Always with line, stops and time, using fixed tags. There is no free text and no photos.</p></div></details>
+        <details><summary>Which cities does Catch work in?</summary><div class="answer"><p>All across Germany – wherever there are buses and trains. Timetables come from open data sources (including real-time data where available). How many reports a line gets depends on how many people take part there.</p></div></details>
+        <details><summary>Do I need an account?</summary><div class="answer"><p>Not for searching and browsing. For reporting, confirming and live tracking you do – it protects against spam and false reports. An e-mail address and a password are all you need.</p></div></details>
+        <details><summary>Is there an iPhone app?</summary><div class="answer"><p>For now, use Catch in your iPhone’s browser: open <a class="js-app" href="https://app.junify.live">app.junify.live</a> and choose “Share → Add to Home Screen”. A native iOS app is planned.</p></div></details>
+        <details><summary>How do I install the Android app?</summary><div class="answer"><p>Tap “Get the Android app” and open the file. Android asks once whether to allow apps from this source – confirm, done. Updates install the same way over the old version.</p></div></details>
+        <details><summary>How reliable are the reports?</summary><div class="answer"><p>As good as the community. Every tip shows how old it is and how often it was confirmed. Tips disputed or flagged by several people are hidden. Catch can’t guarantee that tips are complete or correct and doesn’t replace official information from transport operators.</p></div></details>
+        <details><summary>What happens to my data?</summary><div class="answer"><p>Only your account (e-mail, display name) and your tips are stored. Catch uses your location only at the moment you search, to find stops nearby. Details are in the <a href="/privacy">privacy policy</a>.</p></div></details>
+      </div>
+
+      <div class="cta">
+        <div>
+          <h2>Ready for your next ride?</h2>
+          <p>Download Catch or open the app right in your browser.</p>
+        </div>
+        <div class="btns">
+          <a class="btn btn-dark js-apk" href="/download/catch.apk" download><svg aria-hidden="true"><use href="#i-android"/></svg><span>Get the Android app</span></a>
+          <a class="btn btn-ghost btn-line js-app" href="https://app.junify.live">Open in browser</a>
+        </div>
+        <img class="ghost-bg" src="/assets/img/ghost.svg" alt="" aria-hidden="true">
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a class="brand" href="/"><img src="/assets/img/ghost.svg" alt="" width="26" height="29">Catch</a>
+    <nav aria-label="Legal">
+      <a class="js-app" href="https://app.junify.live">Web-App</a>
+      <a href="/legal-notice">Legal notice</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="https://ko-fi.com/catchline" rel="noopener">Support us</a>
+      <a href="https://transitous.org/sources/" rel="noopener">Data sources</a>
+      <a href="https://github.com/PupJune2/Catch" rel="noopener">Source code</a>
+      <a href="/de/" hreflang="de" lang="de">Deutsch</a>
+    </nav>
+    <span>© <span class="js-year">2026</span> PupJune2 · Catch · junify.live · <a href="https://github.com/PupJune2/Catch" rel="noopener">AGPL-3.0</a></span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    // Derive the web app address from the current domain (junify.live → app.junify.live)
+    var host = location.hostname.replace(/^www\./, '');
+    if (!/^(localhost|127\.|\[)/.test(host) && host.indexOf('.') > 0) {
+      var appUrl = 'https://app.' + host;
+      document.querySelectorAll('.js-app').forEach(function (a) {
+        a.href = appUrl;
+        if (a.textContent.trim() === 'app.junify.live') a.textContent = 'app.' + host;
+      });
+    }
+    document.querySelectorAll('.js-year').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+    // Navigation bar: divider line when scrolled
+    var nav = document.getElementById('nav');
+    var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    // Android app already published? Otherwise mark the button as "coming soon".
+    fetch('/download/catch.apk', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+      if (r.ok) return;
+      document.querySelectorAll('.js-apk').forEach(function (a) {
+        a.setAttribute('aria-disabled', 'true');
+        a.removeAttribute('href');
+        var label = a.querySelector('span'); if (label) label.textContent = 'Android app coming soon';
+      });
+    }).catch(function () {});
+
+    // Live numbers
+    var nf = new Intl.NumberFormat('en-GB');
+    fetch('/v1/stats/public', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (s) {
+      if (!s) return;
+      document.querySelectorAll('.js-stat').forEach(function (el) {
+        var v = s[el.getAttribute('data-key')]; if (typeof v === 'number') el.textContent = nf.format(v);
+      });
+      var t = new Date(s.updatedAt);
+      document.querySelector('.js-stats-note').textContent = 'Live from the Catch community · as of ' +
+        t.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' }) + ' (Berlin time)';
+    }).catch(function () {});
+  })();
+</script>
+</body>
+</html>

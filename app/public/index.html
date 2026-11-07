@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Catch – Copyright (C) 2026 PupJune2 (https://junify.live) · SPDX-License-Identifier: AGPL-3.0-only · GNU AGPL-3.0 with additional terms (attribution required) – see LICENSE and NOTICE.md -->
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <!-- viewport-fit=cover: als installierte App (iOS) reicht der Inhalt unter die Statusleiste, die Safe-Area-Abstände kommen aus react-native-safe-area-context -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <title>%WEB_TITLE%</title>
+    <meta name="description" content="Live tips from passengers and journey planning that also works offline." />
+
+    <!-- Progressive Web App: Manifest + Farben (Navy wie die App) -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#16203A" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="application-name" content="Catch" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iPhone/iPad: "Zum Home-Bildschirm" → Vollbild, eigenes Icon, Name -->
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Catch" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+        /* Navy schon vor dem ersten Rendern (kein weißes Aufblitzen, auch beim Offline-Start) */
+        background-color: #16203a;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  </body>
+</html>

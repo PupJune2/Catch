@@ -1,0 +1,77 @@
+{
+  "expo": {
+    "name": "Catch",
+    "slug": "catch",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "catch",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#16203A",
+    "ios": {
+      "bundleIdentifier": "live.junify.catch",
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Catch nutzt deinen Standort, um Haltestellen und Linien in deiner Nähe zu finden – z. B. wenn du einen Hinweis meldest."
+      }
+    },
+    "android": {
+      "package": "live.junify.catch",
+      "adaptiveIcon": {
+        "backgroundColor": "#16203A",
+        "foregroundImage": "./assets/images/adaptive-icon.png"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "POST_NOTIFICATIONS",
+        "VIBRATE"
+      ],
+      "predictiveBackGestureEnabled": false,
+      "versionCode": 1
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "backgroundColor": "#16203A"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#16203A",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 120
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Catch nutzt deinen Standort, um Haltestellen und Linien in deiner Nähe zu finden – z. B. wenn du einen Hinweis meldest."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#FF7A1A",
+          "defaultChannel": "alerts"
+        }
+      ],
+      "expo-font",
+      [
+        "./plugins/withAndroidNamespace",
+        {
+          "namespace": "live.junify.catchapp"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": false
+    },
+    "extra": {
+      "eas": {}
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<!-- Catch – Copyright (C) 2026 PupJune2 (https://junify.live) · SPDX-License-Identifier: AGPL-3.0-only · GNU AGPL-3.0 with additional terms (attribution required) – see LICENSE and NOTICE.md -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#16203A">
+  <meta name="color-scheme" content="dark">
+  <title>Catch Map</title>
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <!-- Karte für die Catch-App (WebView/iframe). Protokoll: app/src/lib/mapProtocol.ts -->
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="map.css">
+  <link rel="modulepreload" href="vendor/maplibre-gl.js">
+  <script type="module" src="map.js"></script>
+</head>
+<body>
+  <div id="map" role="region" aria-label="Map"></div>
+  <div id="hint" class="hint" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">The map needs JavaScript.</p></noscript>
+</body>
+</html>

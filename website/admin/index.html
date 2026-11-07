@@ -1,0 +1,63 @@
+<!doctype html>
+<!-- Catch – Copyright (C) 2026 PupJune2 (https://junify.live) · SPDX-License-Identifier: AGPL-3.0-only · GNU AGPL-3.0 with additional terms (attribution required) – see LICENSE and NOTICE.md -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#16203A">
+  <title>Catch Admin</title>
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <script src="/admin/admin.js" defer></script>
+</head>
+<body>
+<noscript><p class="noscript">The admin area needs JavaScript.</p></noscript>
+
+<!-- Anmeldung: Schritt 1 (Firebase) und Schritt 2 (Code aus der Authenticator-App) -->
+<main id="auth" class="auth" hidden>
+  <div class="auth-card">
+    <div class="brand"><img src="/assets/img/ghost.svg" alt="" width="34" height="37"><span>Catch <b>Admin</b></span></div>
+
+    <form id="login-form" autocomplete="on" novalidate>
+      <h1>Sign in</h1>
+      <p class="muted">Only for the Catch operator. Every attempt is logged.</p>
+      <label>E-mail<input id="login-email" type="email" autocomplete="username" required></label>
+      <label>Password<input id="login-password" type="password" autocomplete="current-password" required></label>
+      <p id="login-error" class="error" role="alert" hidden></p>
+      <button class="btn primary" type="submit" id="login-submit">Continue</button>
+    </form>
+
+    <form id="code-form" autocomplete="off" novalidate hidden>
+      <h1>Security code</h1>
+      <p class="muted">Enter the 6-digit code from your authenticator app for <b id="code-email"></b>.</p>
+      <label>Code<input id="code-input" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="7" required></label>
+      <p id="code-error" class="error" role="alert" hidden></p>
+      <button class="btn primary" type="submit" id="code-submit">Verify</button>
+      <button class="btn ghost" type="button" id="code-cancel">Use another account</button>
+    </form>
+  </div>
+</main>
+
+<!-- Admin-Oberfläche -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand small"><img src="/assets/img/ghost.svg" alt="" width="26" height="29"><span>Catch <b>Admin</b></span></div>
+    <div class="who"><span id="who-email"></span><button class="btn ghost sm" id="logout">Log out</button></div>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist">
+    <button role="tab" data-tab="overview" class="active">Overview</button>
+    <button role="tab" data-tab="reports">Reports <span class="badge" id="badge-flagged" hidden></span></button>
+    <button role="tab" data-tab="users">Accounts</button>
+    <button role="tab" data-tab="feedback">Feedback <span class="badge" id="badge-feedback" hidden></span></button>
+    <button role="tab" data-tab="inbox">Inbox <span class="badge" id="badge-inbox" hidden></span></button>
+    <button role="tab" data-tab="audit">Log</button>
+  </nav>
+  <main class="content" id="content"></main>
+</div>
+
+<div id="toast" class="toast" role="status" hidden></div>
+<div id="sheet" class="sheet" hidden><div class="sheet-body" id="sheet-body"></div></div>
+</body>
+</html>

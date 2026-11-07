@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+.expo/
+web-build/
+app/ios/
+app/android/
+coverage/
+
+# Firebase-Service-Account-Schlüssel (geheim!) – niemals committen
+*firebase-adminsdk*.json
+*service-account*.json
+
+# Android-Signaturschlüssel (geheim!) – niemals committen
+*.jks
+*.keystore
